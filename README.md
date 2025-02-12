@@ -59,7 +59,7 @@ cd fastapi-book-project
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
-
+p
 3. Install dependencies:
 
 ```bash
