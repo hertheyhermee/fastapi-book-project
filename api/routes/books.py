@@ -3,6 +3,7 @@ from pydantic import BaseModel
 
 from fastapi import APIRouter, status, Response
 from fastapi.responses import JSONResponse
+from fastapi.exceptions import HTTPException
 
 from api.db.schemas import Book, Genre, InMemoryDB
 
