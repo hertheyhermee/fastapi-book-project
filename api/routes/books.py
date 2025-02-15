@@ -1,7 +1,7 @@
 from typing import OrderedDict
 from pydantic import BaseModel
 
-from fastapi import APIRouter, status
+from fastapi import APIRouter, status, Response
 from fastapi.responses import JSONResponse
 
 from api.db.schemas import Book, Genre, InMemoryDB
@@ -62,6 +62,6 @@ async def update_book(book_id: int, book: Book) -> Book:
 
 
 @router.delete("/{book_id}", status_code=status.HTTP_204_NO_CONTENT)
-async def delete_book(book_id: int) -> None:
+async def delete_book(book_id: int) -> Response:
     db.delete_book(book_id)
     return JSONResponse(status_code=status.HTTP_204_NO_CONTENT)
