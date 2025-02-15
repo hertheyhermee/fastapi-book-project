@@ -1,7 +1,9 @@
 from typing import OrderedDict
+from pydantic import BaseModel
 
-from fastapi import APIRouter, status
+from fastapi import APIRouter, status, Response
 from fastapi.responses import JSONResponse
+from fastapi.exceptions import HTTPException
 
 from api.db.schemas import Book, Genre, InMemoryDB
 
@@ -40,6 +42,12 @@ async def create_book(book: Book):
         status_code=status.HTTP_201_CREATED, content=book.model_dump()
     )
 
+@router.get("/{book_id}")
+async def get_book(book_id: int) -> Book:
+    book = db.get_book(book_id)
+    if book is None:
+        raise HTTPException(status_code=404, detail="Book not found")
+    return book
 
 @router.get(
     "/", response_model=OrderedDict[int, Book], status_code=status.HTTP_200_OK
@@ -57,6 +65,6 @@ async def update_book(book_id: int, book: Book) -> Book:
 
 
 @router.delete("/{book_id}", status_code=status.HTTP_204_NO_CONTENT)
-async def delete_book(book_id: int) -> None:
+async def delete_book(book_id: int) -> Response:
     db.delete_book(book_id)
-    return JSONResponse(status_code=status.HTTP_204_NO_CONTENT, content=None)
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
