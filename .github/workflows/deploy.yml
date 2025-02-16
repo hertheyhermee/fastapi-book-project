@@ -24,9 +24,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+      - name: Test SSH Connection
+        run: ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "whoami"
+
       - name: Deploy to server
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} '
+
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/fastapi-book-project:latest &&
             cd /fastapi-book-project &&
             sudo docker-compose up -d
