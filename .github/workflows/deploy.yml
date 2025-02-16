@@ -32,11 +32,10 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
-
       - name: Deploy to server
         run: |
-          ssh -v ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} '
+          ssh -vo StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} '
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/fastapi-book-project:latest &&
-            cd /fastapi-book-project &&
+            cd /path/to/your/project &&
             sudo docker-compose up -d
           '
