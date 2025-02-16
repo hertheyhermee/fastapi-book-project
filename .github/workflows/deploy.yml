@@ -35,7 +35,7 @@ jobs:
 
       - name: Deploy to server
         run: |
-          ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} '
+          ssh -v ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} '
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/fastapi-book-project:latest &&
             cd /fastapi-book-project &&
             sudo docker-compose up -d
