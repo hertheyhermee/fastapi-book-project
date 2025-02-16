@@ -22,6 +22,12 @@ jobs:
     runs-on: ubuntu-latest
     needs: build_and_push
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
       - name: Deploy to server
         run: |
-          ssh user@${{ secrets.SERVER_IP }} 'docker pull ${{ secrets.DOCKER_USERNAME }}/fastapi-book-project:latest && docker-compose -f /path/to/docker-compose.yml up -d'
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} '
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/fastapi-book-project:latest &&
+            cd /fastapi-book-project &&
+            sudo docker-compose up -d
+          '
