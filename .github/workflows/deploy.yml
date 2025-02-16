@@ -24,4 +24,4 @@ jobs:
     steps:
       - name: Deploy to server
         run: |
-          ssh user@${{ secrets.SERVER_IP }} 'docker pull ${{ secrets.DOCKER_USERNAME }}/fastapi-book-project:latest && docker-compose -f /path/to/docker-compose.yml up -d'
+          ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} 'sudo -i && docker pull ${{ secrets.DOCKER_USERNAME }}/fastapi-book-project:latest && docker-compose -f /fastapi-book-project/docker-compose.yml up -d'
